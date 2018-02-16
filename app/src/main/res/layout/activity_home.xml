@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="uk.co.reassured.dilbertapp.home">
+
+    <RelativeLayout
+        android:id="@+id/TopBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+        <ImageView
+            android:id="@+id/dilbert_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/dilbert_icon" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="35sp"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/dilbert_icon"
+            android:layout_toRightOf="@+id/dilbert_icon"
+            android:text="Dilbert Comics" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/MainBody"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/dilbert_comic"
+            android:layout_width="900dp"
+            android:layout_height="280dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/dilbert_previous"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/dilbert_comic"
+            app:srcCompat="@android:drawable/ic_media_rew" />
+
+        <ImageView
+            android:id="@+id/dilbert_next"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/dilbert_comic"
+            app:srcCompat="@android:drawable/ic_media_ff" />
+
+        <TextView
+            android:id="@+id/dilbert_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/dilbert_comic"
+            android:layout_marginBottom="15dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="Loading..." />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
