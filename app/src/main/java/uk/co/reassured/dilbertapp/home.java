@@ -40,7 +40,7 @@ public class home extends AppCompatActivity {
     public String CurrentDate = null;
 
     //This is where the API is located
-    public String APIHost = "http://82.10.188.99/dilbert-app/api.php";
+    public String APIHost = "http://82.10.188.99/DilbertComicsApp/api.php";
 
     //This is where we will store the data from our api
     public JSONObject DilbertDetails = new JSONObject();
@@ -185,6 +185,9 @@ public class home extends AppCompatActivity {
                             }
                         }, response.getString("url").replace("\\/", "/"));
 
+                    } else if(response.getInt("status") == 204){
+                        Toast.makeText(home.this, "Comic for today unavailable.\nHere's yesterday's.", Toast.LENGTH_LONG).show();
+                        PreviousImage();
                     } else {
                         Toast.makeText(home.this, "There is no image available.", Toast.LENGTH_SHORT).show();
                         Date date = new Date();
@@ -221,7 +224,11 @@ public class home extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                System.out.println("Error: " + statusCode);
+                if(statusCode == 0 || statusCode == 500){
+                    System.out.println("Server is F.U.B.A.R\nError Code:" + statusCode);
+                } else {
+                    System.out.println("Error: " + statusCode);
+                }
             }
         });
     }
@@ -252,10 +259,10 @@ public class home extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                try {
+                if(statusCode == 0 || statusCode == 500){
+                    Toast.makeText(home.this, "Server is F.U.B.A.R\nError Code: " + statusCode, Toast.LENGTH_LONG).show();
+                } else {
                     Toast.makeText(home.this, "Error: " + statusCode, Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Log.e("Exception", "JSONException on failure: " + e.toString());
                 }
             }
         });
