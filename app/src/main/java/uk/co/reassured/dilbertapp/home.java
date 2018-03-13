@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class home extends AppCompatActivity {
         CurrentDate = sdf.format(date.getTime());
 
         //Load the comic
-        GetDilbertDetails(CurrentDate);
+        GetDilbertDetails(CurrentDate, "ordered");
 
         //The button to load the previous comic
         ImageView PrevComic = findViewById(R.id.dilbert_previous);
@@ -77,6 +78,16 @@ public class home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NextImage();
+            }
+        });
+
+        //This is the randomizer button
+        Button randomizer = findViewById(R.id.randomizer);
+        randomizer.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                GetDilbertDetails(CurrentDate, "random");
             }
         });
     }
@@ -98,7 +109,7 @@ public class home extends AppCompatActivity {
             CurrentDate = sdf.format(cal.getTime());
 
             //Connect to our API and retrieve the details for that date's comic
-            GetDilbertDetails(CurrentDate);
+            GetDilbertDetails(CurrentDate, "ordered");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,20 +132,21 @@ public class home extends AppCompatActivity {
             CurrentDate = sdf.format(cal.getTime());
 
             //Connect to our API and retrieve the details for that date's comic
-            GetDilbertDetails(CurrentDate);
+            GetDilbertDetails(CurrentDate, "ordered");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void GetDilbertDetails(String date){
+    public void GetDilbertDetails(String date, String Action){
         //We need to get the daily comic data from our API
-        String url = APIHost + "?date=" + CurrentDate;
+        String url = APIHost + "?date=" + CurrentDate + "&action=" + Action;
 
         PerformGetRequest(new OnJSONResponseCallback() {
             @Override
             public JSONObject onJSONResponse(boolean success, JSONObject response) {
                 try{
+                    System.out.println(response);
                     if(response.getInt("status") == 200) {
 
                         DisplayDilbertImage(new OnBitmapResponseCallback() {
@@ -208,7 +220,7 @@ public class home extends AppCompatActivity {
                 }
                 return null;
             }
-        });
+        }, Action);
     }
 
     public void DisplayDilbertImage(final OnBitmapResponseCallback callback, String url){
@@ -241,16 +253,18 @@ public class home extends AppCompatActivity {
         public JSONObject onJSONResponse(boolean success, JSONObject response);
     }
 
-    public void PerformGetRequest(final OnJSONResponseCallback callback) {
+    public void PerformGetRequest(final OnJSONResponseCallback callback, String Action) {
         //This is the client we will use to make the request.
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(APIHost + "?date=" + CurrentDate, new AsyncHttpResponseHandler() {
+        client.get(APIHost + "?date=" + CurrentDate + "&action=" + Action, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String ResponseString = new String(responseBody);
                     JSONObject ResponseObject = new JSONObject(ResponseString);
+                    CurrentDate = ResponseObject.getString("date");
+                    dilbert_title.setText(CurrentDate);
                     callback.onJSONResponse(true, ResponseObject);
                 } catch (Exception e) {
                     Log.e("Exception", "JSONException on success: " + e.toString());

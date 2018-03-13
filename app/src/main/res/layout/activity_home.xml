@@ -80,5 +80,14 @@
             android:gravity="center_horizontal"
             android:textSize="20sp"
             android:text="Loading..." />
+
+        <Button
+            android:id="@+id/randomizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dilbert_comic"
+            android:layout_centerHorizontal="true"
+            android:text="Random"
+            tools:text="Random" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
